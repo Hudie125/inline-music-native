@@ -310,9 +310,9 @@ void GStreamerAudioEngine::rebuildShuffle() {
         m_shuffleIndices.append(i);
     }
     // Fisher-Yates
-    auto rng = QRandomGenerator::securelyInitialized();
+    auto* rng = QRandomGenerator::global();
     for (int i = m_shuffleIndices.size() - 1; i > 0; --i) {
-        int j = rng.bounded(i + 1);
+        int j = rng->bounded(i + 1);
         std::swap(m_shuffleIndices[i], m_shuffleIndices[j]);
     }
     m_shufflePointer = 0;

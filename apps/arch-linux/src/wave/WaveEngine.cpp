@@ -24,7 +24,7 @@ QVariantList WaveEngine::generateWave(int count) {
     }
 
     QDateTime now = QDateTime::currentDateTimeUtc();
-    auto rng = QRandomGenerator::securelyInitialized();
+    auto* rng = QRandomGenerator::global();
 
     struct ScoredTrack {
         Track track;
@@ -77,7 +77,7 @@ QVariantList WaveEngine::generateWave(int count) {
         }
 
         // Controlled variance for discovery
-        score += (rng.generateDouble() * 14.0) - 7.0;
+        score += (rng->generateDouble() * 14.0) - 7.0;
 
         scoredList.append({track, score});
     }

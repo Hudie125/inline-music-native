@@ -73,13 +73,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: inline-music-android-apk
-          path: apps/android/app/build/outputs/apk/release/app-release.apk
+          path: apps/android/app/build/outputs/apk/release/*.apk
 
       - name: Upload Android AAB Artifact
         uses: actions/upload-artifact@v4
         with:
           name: inline-music-android-aab
-          path: apps/android/app/build/outputs/bundle/release/app-release.aab
+          path: apps/android/app/build/outputs/bundle/release/*.aab
 
   # =========================================================================
   # 3. ARCH LINUX NATIVE BUILD & PACKAGING (Arch Linux / C++20 / Qt 6 / Pacman)

@@ -61,13 +61,13 @@ inline-music/
 ## 🚀 Quick Start & Installation
 
 ### Windows
-Download the latest `InlineMusic-win-x64.zip` or standalone executable from [GitHub Releases](https://github.com/Hudie125/inline-music-native/releases), extract, and run `InlineMusic.exe`.
+Download `inline-music-windows-x64.zip` from [GitHub Releases](https://github.com/Hudie125/inline-music-native/releases), extract, and launch `InlineMusic.exe`.
 
 ### Android
-Download the signed APK (`inline-music-v0.1.0.apk`) from [GitHub Releases](https://github.com/Hudie125/inline-music-native/releases) and install directly on Android 8.0+ (API 26+).
+Download `inline-music.apk` (or `inline-music.aab`) from [GitHub Releases](https://github.com/Hudie125/inline-music-native/releases) and install directly on Android 8.0+ (API 26+).
 
 ### Arch Linux
-Install via pacman:
+Download the pacman package from [GitHub Releases](https://github.com/Hudie125/inline-music-native/releases) and install via pacman:
 ```bash
 sudo pacman -U inline-music-0.1.0-1-x86_64.pkg.tar.zst
 ```

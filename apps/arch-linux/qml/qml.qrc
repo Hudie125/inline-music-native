@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>components/GlassCard.qml</file>
+        <file>views/LibraryView.qml</file>
+        <file>views/SearchView.qml</file>
+        <file>views/WaveView.qml</file>
+        <file>views/EqualizerView.qml</file>
+        <file>views/FullPlayerView.qml</file>
+        <file>views/SettingsView.qml</file>
+    </qresource>
+</RCC>

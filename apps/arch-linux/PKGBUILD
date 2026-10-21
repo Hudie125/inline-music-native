@@ -23,25 +23,24 @@ makedepends=(
     'pkgconf'
     'gcc'
 )
-source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('SKIP')
+source=()
+sha256sums=()
 
 build() {
-    cd "$srcdir" || cd "$startdir"
-    cmake -B build -S . \
+    cmake -B "$srcdir/build" -S "$startdir" \
         -GNinja \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=/usr
-    cmake --build build
+    cmake --build "$srcdir/build"
 }
 
 check() {
-    cd "$srcdir/build" || cd "$startdir/build"
-    ctest --output-on-failure
+    ctest --test-dir "$srcdir/build" --output-on-failure
 }
 
 package() {
-    cd "$srcdir/build" || cd "$startdir/build"
-    DESTDIR="$pkgdir" cmake --install .
-    install -Dm644 "$startdir/../../LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+    DESTDIR="$pkgdir" cmake --install "$srcdir/build"
+    if [ -f "$startdir/../../LICENSE" ]; then
+        install -Dm644 "$startdir/../../LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+    fi
 }

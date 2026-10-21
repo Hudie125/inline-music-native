@@ -6,33 +6,33 @@
                   xmlns:vm="clr-namespace:InlineMusic.ViewModels"
                   Title="inline"
                   Width="1200" Height="780"
-                  MinWidth="960" MinHeight="620"
+                  MinWidth="980" MinHeight="640"
                   WindowStartupLocation="CenterScreen"
                   WindowBackdropType="Mica"
                   ExtendsContentIntoTitleBar="True"
-                  Background="#000000">
+                  Background="#09090B">
 
-    <Grid Background="#000000">
+    <Grid Background="#09090B">
         <!-- Main Application Shell -->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="84" />
+                <RowDefinition Height="88" />
             </Grid.RowDefinitions>
 
-            <!-- Custom WinUI 3 TitleBar -->
+            <!-- Custom Fluent TitleBar -->
             <ui:TitleBar Grid.Row="0" Title="inline" ShowMaximize="True" ShowMinimize="True" Height="36" />
 
             <!-- Body Grid: Sidebar Navigation + Content Area -->
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="220" />
+                    <ColumnDefinition Width="230" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <!-- Left Sidebar Navigation -->
-                <Border Grid.Column="0" Background="#0C0C0E" BorderBrush="#15FFFFFF" BorderThickness="0,0,1,0" Padding="16,20">
+                <Border Grid.Column="0" Background="#0C0C0E" BorderBrush="#18FFFFFF" BorderThickness="0,0,1,0" Padding="14,18">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -40,30 +40,75 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <!-- Brand Logo & Title -->
-                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="8,0,0,28">
-                            <Border Width="32" Height="32" CornerRadius="8" Background="#1C1C22" BorderBrush="#30FFFFFF" BorderThickness="1">
+                        <!-- Brand Mark & Title -->
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="8,4,0,24">
+                            <Border Width="34" Height="34" CornerRadius="10" Background="{StaticResource LiquidGlassSurface}" BorderBrush="{StaticResource LiquidGlassBorder}" BorderThickness="1">
                                 <TextBlock Text="..." Foreground="#FFFFFF" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-6,0,0" />
                             </Border>
-                            <TextBlock Text="inline" Foreground="#FFFFFF" FontWeight="Bold" FontSize="18" VerticalAlignment="Center" Margin="12,0,0,0" />
+                            <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="inline" Foreground="#FFFFFF" FontWeight="Bold" FontSize="17" />
+                                <TextBlock Text="v0.1.0 • Hi-Fi" Foreground="#52525B" FontSize="10" FontWeight="SemiBold" Margin="0,1,0,0" />
+                            </StackPanel>
                         </StackPanel>
 
-                        <!-- Navigation Items -->
-                        <StackPanel Grid.Row="1">
-                            <Button Content="🎵  Library" Command="{Binding NavigateLibraryCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="14,10" Margin="0,0,0,6" Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" FontSize="14" />
-                            <Button Content="🔍  Search" Command="{Binding NavigateSearchCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="14,10" Margin="0,0,0,6" Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" FontSize="14" />
-                            <Button Content="🌊  My Wave" Command="{Binding NavigateWaveCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="14,10" Margin="0,0,0,6" Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" FontSize="14" />
-                            <Button Content="🎚️  Equalizer" Command="{Binding NavigateEqualizerCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="14,10" Margin="0,0,0,6" Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" FontSize="14" />
-                            <Button Content="⚙️  Settings" Command="{Binding NavigateSettingsCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Padding="14,10" Margin="0,0,0,6" Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" FontSize="14" />
-                        </StackPanel>
+                        <!-- Navigation Menu -->
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                            <StackPanel>
+                                <TextBlock Text="DISCOVER" Foreground="#52525B" FontSize="11" FontWeight="Bold" Margin="10,0,0,8" />
+                                
+                                <Button Style="{StaticResource SidebarNavButton}" Command="{Binding NavigateLibraryCommand}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path Data="{StaticResource IconLibrary}" Width="16" Height="16" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Stretch="Uniform" Margin="0,0,12,0" />
+                                        <TextBlock Text="Library" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
 
-                        <!-- Mini Player Toggle -->
-                        <Button Grid.Row="2" Content="Mini Player" Command="{Binding ToggleMiniPlayerCommand}" HorizontalAlignment="Stretch" Padding="12,8" />
+                                <Button Style="{StaticResource SidebarNavButton}" Command="{Binding NavigateSearchCommand}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path Data="{StaticResource IconSearch}" Width="16" Height="16" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Stretch="Uniform" Margin="0,0,12,0" />
+                                        <TextBlock Text="Search" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+
+                                <Button Style="{StaticResource SidebarNavButton}" Command="{Binding NavigateWaveCommand}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path Data="{StaticResource IconWave}" Width="16" Height="16" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Stretch="Uniform" Margin="0,0,12,0" />
+                                        <TextBlock Text="My Wave" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+
+                                <TextBlock Text="SOUND ENGINE" Foreground="#52525B" FontSize="11" FontWeight="Bold" Margin="10,18,0,8" />
+
+                                <Button Style="{StaticResource SidebarNavButton}" Command="{Binding NavigateEqualizerCommand}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path Data="{StaticResource IconEqualizer}" Width="16" Height="16" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Stretch="Uniform" Margin="0,0,12,0" />
+                                        <TextBlock Text="Equalizer &amp; DSP" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+
+                                <TextBlock Text="PREFERENCES" Foreground="#52525B" FontSize="11" FontWeight="Bold" Margin="10,18,0,8" />
+
+                                <Button Style="{StaticResource SidebarNavButton}" Command="{Binding NavigateSettingsCommand}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path Data="{StaticResource IconSettings}" Width="16" Height="16" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Stretch="Uniform" Margin="0,0,12,0" />
+                                        <TextBlock Text="Settings" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <!-- Mini Player Bottom Toggle -->
+                        <Button Grid.Row="2" Style="{StaticResource ModernGlassPillButton}" Command="{Binding ToggleMiniPlayerCommand}" HorizontalAlignment="Stretch" Padding="12,10" Margin="0,12,0,0">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Path Data="{StaticResource IconMiniPlayer}" Width="14" Height="14" Fill="#FFFFFF" Stretch="Uniform" Margin="0,0,8,0" />
+                                <TextBlock Text="Mini Player" VerticalAlignment="Center" FontSize="13" />
+                            </StackPanel>
+                        </Button>
                     </Grid>
                 </Border>
 
                 <!-- Center Content Area -->
-                <Grid Grid.Column="1">
+                <Grid Grid.Column="1" Background="#09090B">
                     <ContentControl Content="{Binding CurrentView}">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type vm:LibraryViewModel}">
@@ -89,65 +134,129 @@
                 </Grid>
             </Grid>
 
-            <!-- Bottom Liquid Glass Player Bar -->
-            <Border Grid.Row="2" Background="#141418" BorderBrush="#20FFFFFF" BorderThickness="0,1,0,0" Padding="20,0">
+            <!-- Bottom Apple Music Liquid Glass Player Dock -->
+            <Border Grid.Row="2" Background="{StaticResource LiquidGlassSurface}" BorderBrush="#25FFFFFF" BorderThickness="0,1,0,0" Padding="20,0">
                 <Grid VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="280" />
+                        <ColumnDefinition Width="300" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="240" />
+                        <ColumnDefinition Width="260" />
                     </Grid.ColumnDefinitions>
 
                     <!-- Left: Artwork & Now Playing Info -->
                     <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Border Width="52" Height="52" CornerRadius="10" Background="#28282E" ClipToBounds="True">
-                            <Image Source="{Binding CurrentTrack.CoverPath}" Stretch="UniformToFill" />
+                        <Border Width="52" Height="52" CornerRadius="12" Background="#1C1C22" BorderBrush="#25FFFFFF" BorderThickness="1" ClipToBounds="True">
+                            <Grid>
+                                <Path Data="{StaticResource IconLibrary}" Fill="#3F3F46" Width="20" Height="20" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <Image Source="{Binding CurrentTrack.CoverPath}" Stretch="UniformToFill" />
+                            </Grid>
                         </Border>
                         <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
-                            <TextBlock Text="{Binding CurrentTrack.Title, FallbackValue='inline Music'}" FontWeight="Bold" Foreground="#FFFFFF" FontSize="14" TextTrimming="CharacterEllipsis" MaxWidth="180" />
-                            <TextBlock Text="{Binding CurrentTrack.Artist, FallbackValue='Ready'}" Foreground="#8E8E93" FontSize="12" Margin="0,2,0,0" TextTrimming="CharacterEllipsis" MaxWidth="180" />
+                            <TextBlock Text="{Binding CurrentTrack.Title, FallbackValue='inline Music'}" FontWeight="SemiBold" Foreground="#FFFFFF" FontSize="14" TextTrimming="CharacterEllipsis" MaxWidth="190" />
+                            <TextBlock Text="{Binding CurrentTrack.Artist, FallbackValue='No track playing'}" Foreground="#A1A1AA" FontSize="12" Margin="0,3,0,0" TextTrimming="CharacterEllipsis" MaxWidth="190" />
                         </StackPanel>
-                        <Button Content="♡" Command="{Binding ToggleLikeCommand}" Width="32" Height="32" Margin="8,0,0,0" Background="Transparent" Foreground="#8E8E93" BorderThickness="0" FontSize="16" />
+
+                        <!-- Favorite Heart Toggle -->
+                        <Button Style="{StaticResource GlassIconButton}" Command="{Binding ToggleLikeCommand}" ToolTip="Favorite" Margin="8,0,0,0">
+                            <Path Data="{StaticResource IconHeart}" Width="16" Height="16" Stretch="Uniform">
+                                <Path.Style>
+                                    <Style TargetType="Path">
+                                        <Setter Property="Fill" Value="#71717A" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentTrack.IsLiked}" Value="True">
+                                                <Setter Property="Fill" Value="#F43F5E" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Path.Style>
+                            </Path>
+                        </Button>
                     </StackPanel>
 
-                    <!-- Center: Playback Controls & Progress Scrubber -->
-                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" Width="460">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,4">
-                            <Button Content="⏮" Command="{Binding PreviousCommand}" Width="36" Height="36" Margin="6,0" Background="Transparent" Foreground="#FFFFFF" BorderThickness="0" FontSize="14" />
-                            <Button Content="⏯" Command="{Binding TogglePlayPauseCommand}" Width="44" Height="44" Margin="8,0" Background="#FFFFFF" Foreground="#000000" FontWeight="Bold" FontSize="16" />
-                            <Button Content="⏭" Command="{Binding NextCommand}" Width="36" Height="36" Margin="6,0" Background="Transparent" Foreground="#FFFFFF" BorderThickness="0" FontSize="14" />
+                    <!-- Center: Hero Playback Controls & Progress Scrubber -->
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" Width="480">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,6">
+                            <!-- Shuffle -->
+                            <Button Style="{StaticResource GlassIconButton}" Command="{Binding PlayerVM.ToggleShuffleCommand}" Width="34" Height="34" Margin="6,0" ToolTip="Shuffle">
+                                <Path Data="{StaticResource IconShuffle}" Fill="#71717A" Width="14" Height="14" Stretch="Uniform" />
+                            </Button>
+
+                            <!-- Previous -->
+                            <Button Style="{StaticResource GlassIconButton}" Command="{Binding PreviousCommand}" Width="38" Height="38" Margin="6,0" ToolTip="Previous Track">
+                                <Path Data="{StaticResource IconPrevious}" Fill="#FFFFFF" Width="15" Height="15" Stretch="Uniform" />
+                            </Button>
+
+                            <!-- Hero Play / Pause -->
+                            <Button Style="{StaticResource HeroPlayButton}" Command="{Binding TogglePlayPauseCommand}" Width="46" Height="46" Margin="10,0" ToolTip="Play / Pause">
+                                <Path x:Name="PlayPauseIcon" Width="16" Height="16" Stretch="Uniform">
+                                    <Path.Style>
+                                        <Style TargetType="Path">
+                                            <Setter Property="Data" Value="{StaticResource IconPlay}" />
+                                            <Setter Property="Fill" Value="#09090B" />
+                                            <Setter Property="Margin" Value="2,0,0,0" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsPlaying}" Value="True">
+                                                    <Setter Property="Data" Value="{StaticResource IconPause}" />
+                                                    <Setter Property="Margin" Value="0,0,0,0" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Path.Style>
+                                </Path>
+                            </Button>
+
+                            <!-- Next -->
+                            <Button Style="{StaticResource GlassIconButton}" Command="{Binding NextCommand}" Width="38" Height="38" Margin="6,0" ToolTip="Next Track">
+                                <Path Data="{StaticResource IconNext}" Fill="#FFFFFF" Width="15" Height="15" Stretch="Uniform" />
+                            </Button>
+
+                            <!-- Repeat -->
+                            <Button Style="{StaticResource GlassIconButton}" Command="{Binding PlayerVM.CycleRepeatCommand}" Width="34" Height="34" Margin="6,0" ToolTip="Repeat">
+                                <Path Data="{StaticResource IconRepeat}" Fill="#71717A" Width="14" Height="14" Stretch="Uniform" />
+                            </Button>
                         </StackPanel>
 
-                        <!-- Timeline Scrubber -->
+                        <!-- Sleek Timeline Scrubber -->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="42" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="42" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Column="0" Text="{Binding CurrentPosition, StringFormat='{}{0:m\\:ss}'}" Foreground="#8E8E93" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                            <Slider Grid.Column="1" Minimum="0" Maximum="1" Value="{Binding ProgressFraction, Mode=OneWay}" Margin="8,0" Height="18" VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="2" Text="{Binding Duration, StringFormat='{}{0:m\\:ss}'}" Foreground="#8E8E93" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="0" Text="{Binding CurrentPosition, StringFormat='{}{0:m\\:ss}'}" Foreground="#71717A" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Segoe UI Variable, Segoe UI, sans-serif" />
+                            <Slider Grid.Column="1" Style="{StaticResource SleekProgressSlider}" Minimum="0" Maximum="1" Value="{Binding ProgressFraction, Mode=OneWay}" Margin="10,0" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="2" Text="{Binding Duration, StringFormat='{}{0:m\\:ss}'}" Foreground="#71717A" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Segoe UI Variable, Segoe UI, sans-serif" />
                         </Grid>
                     </StackPanel>
 
-                    <!-- Right: Volume & Expand Fullscreen Player -->
+                    <!-- Right: Volume & Expand Fullscreen Lyrics Player -->
                     <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <TextBlock Text="🔊" Foreground="#8E8E93" VerticalAlignment="Center" Margin="0,0,8,0" />
-                        <Slider Width="90" Minimum="0" Maximum="1" Value="{Binding Volume}" VerticalAlignment="Center" Margin="0,0,16,0" />
-                        <Button Content="⛶" Command="{Binding ToggleFullPlayerCommand}" Width="36" Height="36" Background="Transparent" Foreground="#FFFFFF" BorderThickness="0" ToolTip="Fullscreen Lyrics" />
+                        <Path Data="{StaticResource IconVolume}" Fill="#71717A" Width="15" Height="15" Stretch="Uniform" Margin="0,0,10,0" />
+                        <Slider Style="{StaticResource SleekSlimSlider}" Width="95" Minimum="0" Maximum="1" Value="{Binding Volume}" VerticalAlignment="Center" Margin="0,0,16,0" />
+                        <Button Style="{StaticResource GlassIconButton}" Command="{Binding ToggleFullPlayerCommand}" ToolTip="Lyrics &amp; Expanded Player">
+                            <Path Data="{StaticResource IconLyrics}" Fill="#71717A" Width="15" Height="15" Stretch="Uniform" />
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Border>
         </Grid>
 
-        <!-- Animated Welcome Screen Overlay (Section 4.6) -->
-        <Grid x:Name="WelcomeOverlay" Background="#000000" Visibility="Visible">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock x:Name="WelcomeText" Text="welcome" FontSize="44" FontWeight="SemiBold" Foreground="#FFFFFF" Opacity="0" HorizontalAlignment="Center" />
-                <Button Content="Enter inline" Margin="0,32,0,0" Padding="28,10" Background="#FFFFFF" Foreground="#000000" FontWeight="Bold" Click="EnterApp_Click" />
-            </StackPanel>
+        <!-- Animated Welcome Screen Overlay (Section 4.6 specification) -->
+        <Grid x:Name="WelcomeOverlay" Background="#09090B" Visibility="Visible">
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Width="420" Style="{StaticResource ModernGlassCard}" Padding="36,40">
+                <StackPanel HorizontalAlignment="Center">
+                    <!-- Glowing Brand Mark -->
+                    <Border Width="64" Height="64" CornerRadius="20" Background="{StaticResource LiquidGlassSurface}" BorderBrush="{StaticResource LiquidGlassBorder}" BorderThickness="1" HorizontalAlignment="Center" Margin="0,0,0,24">
+                        <TextBlock Text="..." Foreground="#FFFFFF" FontWeight="Bold" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-10,0,0" />
+                    </Border>
+
+                    <TextBlock x:Name="WelcomeText" Text="welcome" FontSize="36" FontWeight="SemiBold" Foreground="#FFFFFF" Opacity="0" HorizontalAlignment="Center" />
+                    <TextBlock Text="Pure sound. Zero clutter." Foreground="#71717A" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,28" />
+
+                    <Button Style="{StaticResource ModernWhitePillButton}" Content="Enter inline" Click="EnterApp_Click" HorizontalAlignment="Center" Width="180" />
+                </StackPanel>
+            </Border>
         </Grid>
     </Grid>
 </ui:FluentWindow>

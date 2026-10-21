@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QDBusConnection>
 #include <QDBusAbstractAdaptor>
+#include <QDBusObjectPath>
 #include <QVariantMap>
 #include "../audio/GStreamerAudioEngine.hpp"
 

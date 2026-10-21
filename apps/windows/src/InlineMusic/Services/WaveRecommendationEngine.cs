@@ -26,7 +26,6 @@ public class WaveRecommendationEngine : IWaveRecommendationEngine
     {
         var allTracks = await _databaseService.GetAllTracksAsync();
         if (allTracks.Count == 0) return new List<Track>();
-        if (allTracks.Count <= count) return allTracks.OrderBy(_ => Guid.NewGuid()).ToList();
 
         var history = await _databaseService.GetHistoryAsync(150);
         var topGenres = new HashSet<string>(await _databaseService.GetTopGenresAsync(5), StringComparer.OrdinalIgnoreCase);
@@ -92,11 +91,9 @@ public class WaveRecommendationEngine : IWaveRecommendationEngine
             scoredTracks.Add((track, score));
         }
 
-        // Return top scored tracks shuffled slightly for natural flow
+        // Return top scored tracks
         var selected = scoredTracks
             .OrderByDescending(x => x.Score)
-            .Take(count * 2)
-            .OrderBy(_ => Guid.NewGuid())
             .Take(count)
             .Select(x => x.Track)
             .ToList();

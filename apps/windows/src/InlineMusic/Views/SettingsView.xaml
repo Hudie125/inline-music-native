@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid Margin="32,24,32,24">
+        <Grid Margin="32,28,32,32">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -12,10 +12,14 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Text="Settings" FontSize="32" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,0,0,24" />
+            <!-- Header -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,24">
+                <TextBlock Text="Settings" FontSize="32" FontWeight="Bold" Foreground="#FFFFFF" />
+                <TextBlock Text="Audio playback timers, local cache storage, data backup and shortcuts" FontSize="14" Foreground="#71717A" Margin="0,6,0,0" />
+            </StackPanel>
 
             <!-- Sleep Timer Section -->
-            <Border Grid.Row="1" Style="{StaticResource GlassCardStyle}" Padding="24" Margin="0,0,0,20">
+            <Border Grid.Row="1" Style="{StaticResource ModernGlassCard}" Padding="26" Margin="0,0,0,20">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -24,54 +28,84 @@
 
                     <StackPanel Grid.Row="0">
                         <TextBlock Text="Sleep Timer" FontSize="18" FontWeight="SemiBold" Foreground="#FFFFFF" />
-                        <TextBlock Text="Automatically halt audio playback after specified time" Foreground="#8E8E93" FontSize="13" Margin="0,4,0,0" />
+                        <TextBlock Text="Automatically fade out and stop audio playback after specified minutes" Foreground="#71717A" FontSize="13" Margin="0,4,0,0" />
                     </StackPanel>
 
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,16,0,0">
-                        <TextBlock Text="Duration (minutes):" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="0,0,12,0" />
-                        <TextBox Text="{Binding SleepTimerMinutes, UpdateSourceTrigger=PropertyChanged}" Width="70" Padding="8,4" Margin="0,0,16,0" VerticalAlignment="Center" />
-                        <Button Content="Start Sleep Timer" Command="{Binding StartSleepTimerCommand}" Padding="16,8" Margin="0,0,12,0" />
-                        <Button Content="Cancel Timer" Command="{Binding CancelSleepTimerCommand}" Padding="16,8" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,18,0,0">
+                        <TextBlock Text="Duration (minutes):" Foreground="#A1A1AA" VerticalAlignment="Center" Margin="0,0,14,0" />
+                        <Border Background="#1C1C22" BorderBrush="#25FFFFFF" BorderThickness="1" CornerRadius="8" Padding="10,6" Margin="0,0,16,0">
+                            <TextBox Text="{Binding SleepTimerMinutes, UpdateSourceTrigger=PropertyChanged}" Width="50" Background="Transparent" BorderThickness="0" Foreground="#FFFFFF" FontSize="14" HorizontalAlignment="Center" CaretBrush="#FFFFFF" />
+                        </Border>
+                        <Button Style="{StaticResource ModernWhitePillButton}" Content="Start Sleep Timer" Command="{Binding StartSleepTimerCommand}" Padding="18,8" Margin="0,0,12,0" />
+                        <Button Style="{StaticResource ModernGlassPillButton}" Content="Cancel Timer" Command="{Binding CancelSleepTimerCommand}" Padding="18,8" />
                     </StackPanel>
                 </Grid>
             </Border>
 
             <!-- Cache & Storage Section -->
-            <Border Grid.Row="2" Style="{StaticResource GlassCardStyle}" Padding="24" Margin="0,0,0,20">
+            <Border Grid.Row="2" Style="{StaticResource ModernGlassCard}" Padding="26" Margin="0,0,0,20">
                 <StackPanel>
                     <TextBlock Text="Cache &amp; Storage" FontSize="18" FontWeight="SemiBold" Foreground="#FFFFFF" />
-                    <TextBlock Text="Manage locally stored album art thumbnails and playback history" Foreground="#8E8E93" FontSize="13" Margin="0,4,0,0" />
+                    <TextBlock Text="Manage locally cached album art thumbnails and playback history logs" Foreground="#71717A" FontSize="13" Margin="0,4,0,0" />
 
-                    <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
-                        <Button Content="Clear Artwork Cache" Command="{Binding ClearCacheCommand}" Padding="16,8" Margin="0,0,12,0" />
-                        <Button Content="Clear Listening History" Command="{Binding ClearHistoryCommand}" Padding="16,8" />
+                    <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
+                        <Button Style="{StaticResource ModernGlassPillButton}" Content="Clear Artwork Cache" Command="{Binding ClearCacheCommand}" Padding="18,8" Margin="0,0,12,0" />
+                        <Button Style="{StaticResource ModernGlassPillButton}" Content="Clear Listening History" Command="{Binding ClearHistoryCommand}" Padding="18,8" />
                     </StackPanel>
                 </StackPanel>
             </Border>
 
             <!-- Library Backup & Export Section -->
-            <Border Grid.Row="3" Style="{StaticResource GlassCardStyle}" Padding="24" Margin="0,0,0,20">
+            <Border Grid.Row="3" Style="{StaticResource ModernGlassCard}" Padding="26" Margin="0,0,0,20">
                 <StackPanel>
-                    <TextBlock Text="Backup &amp; Export" FontSize="18" FontWeight="SemiBold" Foreground="#FFFFFF" />
-                    <TextBlock Text="Export metadata and playlists to standard formats without proprietary lock-in" Foreground="#8E8E93" FontSize="13" Margin="0,4,0,0" />
+                    <TextBlock Text="Data Backup &amp; Freedom" FontSize="18" FontWeight="SemiBold" Foreground="#FFFFFF" />
+                    <TextBlock Text="Export metadata and playlists to standard formats without vendor lock-in" Foreground="#71717A" FontSize="13" Margin="0,4,0,0" />
 
-                    <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
-                        <Button Content="Export Library to CSV" Command="{Binding ExportLibraryCsvCommand}" Padding="16,8" Margin="0,0,12,0" />
-                        <Button Content="Create Full JSON Backup" Command="{Binding BackupLibraryCommand}" Padding="16,8" />
+                    <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
+                        <Button Style="{StaticResource ModernGlassPillButton}" Content="Export Library to CSV" Command="{Binding ExportLibraryCsvCommand}" Padding="18,8" Margin="0,0,12,0" />
+                        <Button Style="{StaticResource ModernGlassPillButton}" Content="Create Full JSON Backup" Command="{Binding BackupLibraryCommand}" Padding="18,8" />
                     </StackPanel>
                 </StackPanel>
             </Border>
 
             <!-- Shortcuts Reference Card -->
-            <Border Grid.Row="4" Style="{StaticResource GlassCardStyle}" Padding="24">
+            <Border Grid.Row="4" Style="{StaticResource ModernGlassCard}" Padding="26">
                 <StackPanel>
-                    <TextBlock Text="System Hotkeys" FontSize="18" FontWeight="SemiBold" Foreground="#FFFFFF" />
-                    <TextBlock Text="Global shortcuts work everywhere even when minimized" Foreground="#8E8E93" FontSize="13" Margin="0,4,0,12" />
+                    <TextBlock Text="Global Hotkeys" FontSize="18" FontWeight="SemiBold" Foreground="#FFFFFF" />
+                    <TextBlock Text="Control playback from anywhere across Windows, even when minimized to background" Foreground="#71717A" FontSize="13" Margin="0,4,0,16" />
 
-                    <TextBlock Text="• Ctrl + Alt + Space: Toggle Play / Pause" Foreground="#FFFFFF" Margin="0,4" />
-                    <TextBlock Text="• Ctrl + Alt + Right Arrow: Next Track" Foreground="#FFFFFF" Margin="0,4" />
-                    <TextBlock Text="• Ctrl + Alt + Left Arrow: Previous Track" Foreground="#FFFFFF" Margin="0,4" />
-                    <TextBlock Text="• Ctrl + Alt + M: Toggle Floating Mini-Player" Foreground="#FFFFFF" Margin="0,4" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" Grid.Column="0" Background="#1C1C22" BorderBrush="#25FFFFFF" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,14,8">
+                            <TextBlock Text="Ctrl + Alt + Space" Foreground="#FFFFFF" FontFamily="Consolas, monospace" FontSize="12" />
+                        </Border>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Toggle Play / Pause" Foreground="#A1A1AA" VerticalAlignment="Center" Margin="0,0,0,8" />
+
+                        <Border Grid.Row="1" Grid.Column="0" Background="#1C1C22" BorderBrush="#25FFFFFF" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,14,8">
+                            <TextBlock Text="Ctrl + Alt + Right" Foreground="#FFFFFF" FontFamily="Consolas, monospace" FontSize="12" />
+                        </Border>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="Next Track" Foreground="#A1A1AA" VerticalAlignment="Center" Margin="0,0,0,8" />
+
+                        <Border Grid.Row="2" Grid.Column="0" Background="#1C1C22" BorderBrush="#25FFFFFF" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,14,8">
+                            <TextBlock Text="Ctrl + Alt + Left" Foreground="#FFFFFF" FontFamily="Consolas, monospace" FontSize="12" />
+                        </Border>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="Previous Track" Foreground="#A1A1AA" VerticalAlignment="Center" Margin="0,0,0,8" />
+
+                        <Border Grid.Row="3" Grid.Column="0" Background="#1C1C22" BorderBrush="#25FFFFFF" BorderThickness="1" CornerRadius="6" Padding="8,4" Margin="0,0,14,0">
+                            <TextBlock Text="Ctrl + Alt + M" Foreground="#FFFFFF" FontFamily="Consolas, monospace" FontSize="12" />
+                        </Border>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="Toggle Floating Mini-Player" Foreground="#A1A1AA" VerticalAlignment="Center" />
+                    </Grid>
                 </StackPanel>
             </Border>
         </Grid>

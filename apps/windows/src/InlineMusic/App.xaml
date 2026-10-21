@@ -8,25 +8,13 @@
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemesDictionary Theme="Dark" />
                 <ui:ControlsDictionary />
+                <ResourceDictionary Source="/Resources/DesignSystem.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Monochrome Design System Palette -->
-            <SolidColorBrush x:Key="CanvasBackground" Color="#000000" />
-            <SolidColorBrush x:Key="SurfaceGlass" Color="#18181C" Opacity="0.75" />
-            <SolidColorBrush x:Key="SurfaceGlassHover" Color="#28282E" Opacity="0.85" />
-            <SolidColorBrush x:Key="GlassBorder" Color="#30FFFFFF" />
-            <SolidColorBrush x:Key="GlassBorderSubtle" Color="#15FFFFFF" />
-            <SolidColorBrush x:Key="TextPrimary" Color="#FFFFFF" />
-            <SolidColorBrush x:Key="TextSecondary" Color="#8E8E93" />
-            <SolidColorBrush x:Key="TextTertiary" Color="#48484A" />
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-            <!-- Global Glass Card Style -->
-            <Style x:Key="GlassCardStyle" TargetType="Border">
-                <Setter Property="Background" Value="{StaticResource SurfaceGlass}" />
-                <Setter Property="BorderBrush" Value="{StaticResource GlassBorderSubtle}" />
-                <Setter Property="BorderThickness" Value="1" />
-                <Setter Property="CornerRadius" Value="14" />
-            </Style>
+            <!-- Global Glass Card Style Reference -->
+            <Style x:Key="GlassCardStyle" TargetType="Border" BasedOn="{StaticResource ModernGlassCard}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

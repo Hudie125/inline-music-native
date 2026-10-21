@@ -1,6 +1,7 @@
 #include "MprisPlayer.hpp"
 #include <QCoreApplication>
 #include <QDBusConnectionInterface>
+#include <QDBusObjectPath>
 #include <QUrl>
 
 namespace inline_music {

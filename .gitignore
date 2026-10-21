@@ -1,0 +1,60 @@
+# Root gitignore for inline Music (Windows .NET, Android Gradle, Arch Linux CMake/Qt)
+
+# Windows / Visual Studio / .NET
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+_ReSharper*/
+*.VC.db
+*.opendb
+*.DotSettings.user
+
+# Android / Gradle
+.gradle/
+build/
+app/build/
+*.apk
+*.aab
+local.properties
+.idea/
+*.iml
+.cxx/
+captures/
+.externalNativeBuild/
+
+# Arch Linux / C++ / CMake / Qt
+build*/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+*.ninja
+*.ninja_deps
+*.ninja_log
+Makefile
+*.o
+*.a
+*.so
+*.pkg.tar.zst
+*.pkg.tar.xz
+pkg/
+src/arch-linux-pkg/
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+*.log
+
+# Keystores and Secrets (NEVER COMMIT)
+*.keystore
+*.jks
+*.p12
+*.pem
+credentials.json
+google-services.json

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Radial Gradient: Graphite center fading to pitch black -->
+    <radialGradient id="bgGlow" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#242428" />
+      <stop offset="55%" stop-color="#0e0e11" />
+      <stop offset="100%" stop-color="#000000" />
+    </radialGradient>
+
+    <!-- Subtle Inner Border Highlight -->
+    <linearGradient id="glassBorder" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.30" />
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02" />
+    </linearGradient>
+
+    <!-- Dot Soft Glow Filter -->
+    <filter id="dotGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+
+    <!-- Inner Shadow for depth -->
+    <filter id="innerGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowDiff"/>
+      <feFlood flood-color="#ffffff" flood-opacity="0.08"/>
+      <feComposite in2="shadowDiff" operator="in"/>
+      <feComposite in2="SourceGraphic" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Squircle Base with Graphite Radial Glow -->
+  <rect x="24" y="24" width="464" height="464" rx="112" ry="112"
+        fill="url(#bgGlow)" />
+
+  <!-- Glass Inner Border -->
+  <rect x="24" y="24" width="464" height="464" rx="112" ry="112"
+        fill="none" stroke="url(#glassBorder)" stroke-width="3" />
+
+  <!-- The Iconic Three Dots (Horizontal Ellipsis ...) with subtle white glow -->
+  <g fill="#FFFFFF" filter="url(#dotGlow)">
+    <!-- First dot -->
+    <circle cx="168" cy="256" r="28" />
+    <!-- Second dot (center) -->
+    <circle cx="256" cy="256" r="28" />
+    <!-- Third dot -->
+    <circle cx="344" cy="256" r="28" />
+  </g>
+</svg>

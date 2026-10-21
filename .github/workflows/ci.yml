@@ -1,0 +1,125 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # =========================================================================
+  # 1. WINDOWS NATIVE BUILD & TESTS (.NET 8 LTS / WinUI 3 Fluent / NAudio)
+  # =========================================================================
+  build-windows:
+    name: Build & Test Windows Native App
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore NuGet Packages
+        run: dotnet restore apps/windows/InlineMusic.sln
+
+      - name: Run Unit Tests
+        run: dotnet test apps/windows/tests/InlineMusic.Tests/InlineMusic.Tests.csproj --configuration Release --verbosity normal
+
+      - name: Publish Windows Binary (x64)
+        run: |
+          dotnet publish apps/windows/src/InlineMusic/InlineMusic.csproj -c Release -r win-x64 --self-contained false -o build_artifacts/windows
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: inline-music-windows-x64
+          path: build_artifacts/windows/
+
+  # =========================================================================
+  # 2. ANDROID NATIVE BUILD & TESTS (Kotlin / Jetpack Compose / Media3)
+  # =========================================================================
+  build-android:
+    name: Build & Test Android Native App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Grant Execute Permission to Gradlew
+        run: chmod +x apps/android/gradlew
+
+      - name: Run Android Unit Tests
+        working-directory: apps/android
+        run: ./gradlew testDebugUnitTest --no-daemon
+
+      - name: Assemble APK & AAB
+        working-directory: apps/android
+        run: |
+          ./gradlew assembleRelease bundleRelease --no-daemon
+
+      - name: Upload Android APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: inline-music-android-apk
+          path: apps/android/app/build/outputs/apk/release/app-release.apk
+
+      - name: Upload Android AAB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: inline-music-android-aab
+          path: apps/android/app/build/outputs/bundle/release/app-release.aab
+
+  # =========================================================================
+  # 3. ARCH LINUX NATIVE BUILD & PACKAGING (Arch Linux / C++20 / Qt 6 / Pacman)
+  # =========================================================================
+  build-arch-linux:
+    name: Build & Verify Arch Linux Pacman Package
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:base-devel
+
+    steps:
+      - name: Install System Dependencies
+        run: |
+          pacman -Syu --noconfirm --needed \
+            cmake ninja git pkgconf \
+            qt6-base qt6-declarative qt6-shadertools \
+            gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad \
+            sqlite hicolor-icon-theme
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure CMake & Build
+        run: |
+          cmake -B apps/arch-linux/build -S apps/arch-linux -GNinja -DCMAKE_BUILD_TYPE=Release
+          cmake --build apps/arch-linux/build
+
+      - name: Run Unit Tests
+        run: |
+          ctest --test-dir apps/arch-linux/build --output-on-failure
+
+      - name: Build Arch Linux Pacman Package (makepkg)
+        run: |
+          useradd -m builder && chown -R builder:builder .
+          su builder -c "cd apps/arch-linux && makepkg --noconfirm -sf"
+
+      - name: Upload Arch Linux Package Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: inline-music-arch-linux-pkg
+          path: apps/arch-linux/*.pkg.tar.zst

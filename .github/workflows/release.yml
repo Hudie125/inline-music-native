@@ -1,0 +1,171 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  # =========================================================================
+  # 1. BUILD WINDOWS RELEASE PACKAGE
+  # =========================================================================
+  package-windows:
+    name: Package Windows Release
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish Windows Standalone Executable
+        run: |
+          dotnet publish apps/windows/src/InlineMusic/InlineMusic.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o dist/windows
+
+      - name: Create Windows ZIP Archive
+        run: |
+          Compress-Archive -Path dist/windows/* -DestinationPath dist/inline-music-windows-x64.zip
+
+      - name: Upload Windows Asset
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-release-asset
+          path: dist/inline-music-windows-x64.zip
+
+  # =========================================================================
+  # 2. BUILD ANDROID RELEASE PACKAGE
+  # =========================================================================
+  package-android:
+    name: Package Android Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Grant Execute Permission to Gradlew
+        run: chmod +x apps/android/gradlew
+
+      - name: Assemble Release APK and AAB
+        working-directory: apps/android
+        run: |
+          ./gradlew assembleRelease bundleRelease --no-daemon
+
+      - name: Copy Android Artifacts
+        run: |
+          mkdir -p dist/android
+          cp apps/android/app/build/outputs/apk/release/*.apk dist/android/inline-music.apk
+          cp apps/android/app/build/outputs/bundle/release/*.aab dist/android/inline-music.aab
+
+      - name: Upload Android Assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-release-assets
+          path: dist/android/
+
+  # =========================================================================
+  # 3. BUILD ARCH LINUX RELEASE PACKAGE
+  # =========================================================================
+  package-arch-linux:
+    name: Package Arch Linux Release
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:base-devel
+
+    steps:
+      - name: Install System Dependencies
+        run: |
+          pacman -Syu --noconfirm --needed \
+            cmake ninja git pkgconf \
+            qt6-base qt6-declarative qt6-shadertools \
+            gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad \
+            sqlite hicolor-icon-theme
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build Pacman Package
+        run: |
+          useradd -m builder && chown -R builder:builder .
+          su builder -c "cd apps/arch-linux && makepkg --noconfirm -sf"
+          mkdir -p dist/arch-linux
+          cp apps/arch-linux/*.pkg.tar.zst dist/arch-linux/
+
+      - name: Upload Arch Linux Package Asset
+        uses: actions/upload-artifact@v4
+        with:
+          name: arch-linux-release-asset
+          path: dist/arch-linux/
+
+  # =========================================================================
+  # 4. PUBLISH GITHUB RELEASE WITH CHECKSUMS
+  # =========================================================================
+  publish-release:
+    name: Publish Official GitHub Release
+    needs: [package-windows, package-android, package-arch-linux]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Download Windows Asset
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-release-asset
+          path: release-files/
+
+      - name: Download Android Assets
+        uses: actions/download-artifact@v4
+        with:
+          name: android-release-assets
+          path: release-files/
+
+      - name: Download Arch Linux Asset
+        uses: actions/download-artifact@v4
+        with:
+          name: arch-linux-release-asset
+          path: release-files/
+
+      - name: Generate SHA-256 Checksums
+        run: |
+          cd release-files
+          sha256sum * > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "inline Music ${{ github.ref_name }}"
+          draft: false
+          prerelease: false
+          files: |
+            release-files/*
+          body: |
+            ## inline Music ${{ github.ref_name }} Release
+            
+            Welcome to the official native release of **inline Music** for Windows, Android, and Arch Linux!
+
+            ### Included Distribution Packages:
+            - **Windows**: `inline-music-windows-x64.zip` (standalone 64-bit desktop application with NAudio 10-band DSP, SMTC, and floating mini-player)
+            - **Android**: `inline-music.apk` & `inline-music.aab` (native Android 8.0+ app with Media3 background playback, Compose UI, and Room DB)
+            - **Arch Linux**: `inline-music-*.pkg.tar.zst` (pacman package with Qt 6 QML, GStreamer audio pipeline, and MPRIS2 integration)
+
+            ### Integrity & Checksums:
+            Check the attached `SHA256SUMS.txt` to verify file integrity.

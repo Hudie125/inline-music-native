@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">inline</string>
+    <string name="channel_name">inline Playback</string>
+    <string name="channel_description">Media controls and persistent notification for inline music player</string>
+</resources>

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/InlineMusic/InlineMusic.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/InlineMusic.Tests/InlineMusic.Tests.csproj" />
+  </Folder>
+</Solution>

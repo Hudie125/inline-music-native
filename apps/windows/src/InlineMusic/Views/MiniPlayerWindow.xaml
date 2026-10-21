@@ -1,0 +1,40 @@
+<Window x:Class="InlineMusic.Views.MiniPlayerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="inline Mini Player"
+        Width="360" Height="90"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        WindowStartupLocation="Manual"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+    <Border Background="#1A1A1E" BorderBrush="#35FFFFFF" BorderThickness="1" CornerRadius="18" Padding="12,8">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="54" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Album Artwork -->
+            <Border Grid.Column="0" Width="48" Height="48" CornerRadius="10" Background="#28282E" ClipToBounds="True">
+                <Image Source="{Binding CurrentTrack.CoverPath}" Stretch="UniformToFill" />
+            </Border>
+
+            <!-- Title & Artist -->
+            <StackPanel Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center">
+                <TextBlock Text="{Binding CurrentTrack.Title, FallbackValue='inline Music'}" FontWeight="Bold" Foreground="#FFFFFF" FontSize="13" TextTrimming="CharacterEllipsis" />
+                <TextBlock Text="{Binding CurrentTrack.Artist, FallbackValue='Mini Player'}" Foreground="#8E8E93" FontSize="11" Margin="0,2,0,0" TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+
+            <!-- Controls (Play/Pause, Next, Close) -->
+            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button Content="⏯" Command="{Binding TogglePlayPauseCommand}" Width="36" Height="36" Margin="4,0" Background="#FFFFFF" Foreground="#000000" FontWeight="Bold" />
+                <Button Content="⏭" Command="{Binding NextCommand}" Width="32" Height="32" Margin="2,0" />
+                <Button Content="✕" Click="Close_Click" Width="28" Height="28" Margin="4,0" Background="Transparent" Foreground="#8E8E93" BorderThickness="0" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

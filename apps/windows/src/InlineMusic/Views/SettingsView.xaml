@@ -1,0 +1,79 @@
+<UserControl x:Class="InlineMusic.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="32,24,32,24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Text="Settings" FontSize="32" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,0,0,24" />
+
+            <!-- Sleep Timer Section -->
+            <Border Grid.Row="1" Style="{StaticResource GlassCardStyle}" Padding="24" Margin="0,0,0,20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0">
+                        <TextBlock Text="Sleep Timer" FontSize="18" FontWeight="SemiBold" Foreground="#FFFFFF" />
+                        <TextBlock Text="Automatically halt audio playback after specified time" Foreground="#8E8E93" FontSize="13" Margin="0,4,0,0" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,16,0,0">
+                        <TextBlock Text="Duration (minutes):" Foreground="#FFFFFF" VerticalAlignment="Center" Margin="0,0,12,0" />
+                        <TextBox Text="{Binding SleepTimerMinutes, UpdateSourceTrigger=PropertyChanged}" Width="70" Padding="8,4" Margin="0,0,16,0" VerticalAlignment="Center" />
+                        <Button Content="Start Sleep Timer" Command="{Binding StartSleepTimerCommand}" Padding="16,8" Margin="0,0,12,0" />
+                        <Button Content="Cancel Timer" Command="{Binding CancelSleepTimerCommand}" Padding="16,8" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Cache & Storage Section -->
+            <Border Grid.Row="2" Style="{StaticResource GlassCardStyle}" Padding="24" Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="Cache &amp; Storage" FontSize="18" FontWeight="SemiBold" Foreground="#FFFFFF" />
+                    <TextBlock Text="Manage locally stored album art thumbnails and playback history" Foreground="#8E8E93" FontSize="13" Margin="0,4,0,0" />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                        <Button Content="Clear Artwork Cache" Command="{Binding ClearCacheCommand}" Padding="16,8" Margin="0,0,12,0" />
+                        <Button Content="Clear Listening History" Command="{Binding ClearHistoryCommand}" Padding="16,8" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Library Backup & Export Section -->
+            <Border Grid.Row="3" Style="{StaticResource GlassCardStyle}" Padding="24" Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="Backup &amp; Export" FontSize="18" FontWeight="SemiBold" Foreground="#FFFFFF" />
+                    <TextBlock Text="Export metadata and playlists to standard formats without proprietary lock-in" Foreground="#8E8E93" FontSize="13" Margin="0,4,0,0" />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                        <Button Content="Export Library to CSV" Command="{Binding ExportLibraryCsvCommand}" Padding="16,8" Margin="0,0,12,0" />
+                        <Button Content="Create Full JSON Backup" Command="{Binding BackupLibraryCommand}" Padding="16,8" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Shortcuts Reference Card -->
+            <Border Grid.Row="4" Style="{StaticResource GlassCardStyle}" Padding="24">
+                <StackPanel>
+                    <TextBlock Text="System Hotkeys" FontSize="18" FontWeight="SemiBold" Foreground="#FFFFFF" />
+                    <TextBlock Text="Global shortcuts work everywhere even when minimized" Foreground="#8E8E93" FontSize="13" Margin="0,4,0,12" />
+
+                    <TextBlock Text="• Ctrl + Alt + Space: Toggle Play / Pause" Foreground="#FFFFFF" Margin="0,4" />
+                    <TextBlock Text="• Ctrl + Alt + Right Arrow: Next Track" Foreground="#FFFFFF" Margin="0,4" />
+                    <TextBlock Text="• Ctrl + Alt + Left Arrow: Previous Track" Foreground="#FFFFFF" Margin="0,4" />
+                    <TextBlock Text="• Ctrl + Alt + M: Toggle Floating Mini-Player" Foreground="#FFFFFF" Margin="0,4" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

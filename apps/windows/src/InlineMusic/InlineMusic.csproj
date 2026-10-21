@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Assets\inline.ico</ApplicationIcon>
+    <AssemblyName>InlineMusic</AssemblyName>
+    <RootNamespace>InlineMusic</RootNamespace>
+    <Version>0.1.0</Version>
+    <Authors>inline Music Contributors</Authors>
+    <Description>inline Music native player for Windows</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WPF-UI" Version="4.3.0" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="TagLibSharp" Version="2.3.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\inline.ico" />
+    <Resource Include="Assets\inline-256.png" />
+  </ItemGroup>
+
+</Project>
